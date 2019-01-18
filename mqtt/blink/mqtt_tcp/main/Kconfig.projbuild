@@ -1,0 +1,15 @@
+menu "MQTT Application sample"
+
+config WIFI_SSID
+    string "WiFi SSID"
+    default "IOT"
+    help
+        SSID (network name) for the example to connect to.
+
+config WIFI_PASSWORD
+    string "WiFi Password"
+    default "1234567890"
+    help
+        WiFi password (WPA or WPA2) for the example to use.
+
+endmenu
