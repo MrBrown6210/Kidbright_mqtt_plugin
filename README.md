@@ -1,8 +1,3 @@
----
-
-
----
-
 <h1 id="welcome-to-mqtt-plugin-for-kidbright">Welcome to MQTT Plugin for KidBright!</h1>
 <p><strong>plugin สำหรับเชื่อมต่อกับ MQTT ภายใน KidBright</strong><br>
 การที่ทำให้อุปกรณ์ KidBright เชื่อมต่อไปยังช่องทางอื่นได้ไม่ว่าจะเป็น Hardware, Mobile App, Web ก็เป็นการปลดล็อคขีดจำกัดที่สำคัญสำหรับ kidbright</p>
