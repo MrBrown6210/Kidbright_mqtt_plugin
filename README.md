@@ -1,3 +1,8 @@
+---
+
+
+---
+
 <h1 id="welcome-to-mqtt-plugin-for-kidbright">Welcome to MQTT Plugin for KidBright!</h1>
 <p><strong>plugin สำหรับเชื่อมต่อกับ MQTT ภายใน KidBright</strong><br>
 การที่ทำให้อุปกรณ์ KidBright เชื่อมต่อไปยังช่องทางอื่นได้ไม่ว่าจะเป็น Hardware, Mobile App, Web ก็เป็นการปลดล็อคขีดจำกัดที่สำคัญสำหรับ kidbright</p>
@@ -7,4 +12,14 @@
 <h2 id="ตัวอย่างโปรแกรม">ตัวอย่างโปรแกรม</h2>
 <p><img src="https://get.google.com/albumarchive/105550791925667194106/album/AF1QipM04TFl0J3kwLrZzy5PpNeUL24WhmXzvTWbfCx9/AF1QipPTf8E3IUB4iLN-ygkKL9wEjyZZHSM75jOeEOjM?source=pwa#6681136948458176210" alt="MQTT-EXample"><br>
 ถ้าหากบน LED ขึ้นคำว่า ON แปลว่าสามารถใช้งาน MQTT ได้สำเร็จ</p>
+<h2 id="วิธีการใช้งาน">วิธีการใช้งาน</h2>
+<ul>
+<li>ใช้ block นี้เพื่อทำการเชื่อมต่อกับ MQTT<br>
+(ตอนใส่ ip server ให้ใส่ <strong>mqtt://</strong> นำหน้าด้วย)<br>
+<img src="https://drive.google.com/file/d/1JwZJbpUWl9inH8qDxuqEsNBH8m8Q1H9Y/view?usp=sharing" alt="enter image description here"></li>
+<li>ใช้ block นี้เพื่อ subscribe ข้อมูลจาก topic <strong>(รับข้อมูล)</strong><img src="https://drive.google.com/file/d/1JwZJbpUWl9inH8qDxuqEsNBH8m8Q1H9Y/view?usp=sharing" alt="enter image description here"></li>
+<li>ใช้ block นี้เพื่อ public ข้อมูลไปที่ topic <strong>(ส่งข้อมูล)</strong><img src="https://drive.google.com/file/d/1JwZJbpUWl9inH8qDxuqEsNBH8m8Q1H9Y/view?usp=sharing" alt="enter image description here"></li>
+<li>ใช้ block นี้เพื่อดูข้อมูลที่ส่งมาจาก topic นั้นๆ <strong>(ดูข้อมูล)</strong><img src="https://drive.google.com/file/d/1JwZJbpUWl9inH8qDxuqEsNBH8m8Q1H9Y/view?usp=sharing" alt="enter image description here"></li>
+<li>ใช้ block นี้เพื่อเช็คว่าได้เชื่อมต่อ MQTT Server แล้วหรือยัง<img src="https://drive.google.com/file/d/1JwZJbpUWl9inH8qDxuqEsNBH8m8Q1H9Y/view?usp=sharing" alt="enter image description here"></li>
+</ul>
 
