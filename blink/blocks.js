@@ -53,6 +53,54 @@ var mqtt_color_hue = 90;
 // 	}
 // };
 
+// Blockly.Blocks["mqtt.set_string"] = {
+// 	init: function() {
+// 		this.appendDummyInput()
+// 	        .appendField("string set")
+// 	        .appendField(new Blockly.FieldTextInput("default"), "VAR")
+// 	    this.appendValueInput("VALUE")
+// 	        .setCheck(null)
+// 	        .appendField("to");
+// 		this.setPreviousStatement(true);
+// 		this.setNextStatement(true);
+// 	    this.setInputsInline(true);
+// 		this.setColour(mqtt_color_hue);
+// 		this.setTooltip(Blockly.Msg.BLINK_START_TOOLTIP);
+// 		this.setHelpUrl(Blockly.Msg.BLINK_START_HELPURL);
+// 	}
+// }
+
+// Blockly.Blocks["mqtt.get_string"] = {
+// 	init: function() {
+// 		this.appendDummyInput()
+// 	        .appendField("get")
+// 	        .appendField(new Blockly.FieldTextInput("default"), "VAR")
+		
+// 		this.setOutput(true, null);
+// 		this.setColour(mqtt_color_hue);
+// 		this.setTooltip(Blockly.Msg.BLINK_START_TOOLTIP);
+// 		this.setHelpUrl(Blockly.Msg.BLINK_START_HELPURL);
+// 	}
+// }
+
+Blockly.Blocks["mqtt.concat"] = {
+	init: function() {
+		this.appendDummyInput()
+	        .appendField("string concat")
+	    this.appendValueInput("ONE")
+	        .setCheck(null)
+	        .appendField("one");
+	    this.appendValueInput("TWO")
+	        .setCheck(null)
+	        .appendField("two");
+	    this.setInputsInline(true);
+	    this.setOutput(true, null);
+		this.setColour(mqtt_color_hue);
+		this.setTooltip(Blockly.Msg.BLINK_START_TOOLTIP);
+		this.setHelpUrl(Blockly.Msg.BLINK_START_HELPURL);
+	}
+};
+
 Blockly.Blocks["mqtt.connect"] = {
 	init: function() {
 		this.appendDummyInput()

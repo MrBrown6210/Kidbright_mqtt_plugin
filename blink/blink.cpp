@@ -29,6 +29,9 @@
 
 #include <sys/time.h>
 
+#include <cmath>
+#include <cfenv>
+
 using namespace std;
 
 static const char *TAG = "MQTT_SAMPLE";
@@ -44,6 +47,8 @@ static esp_mqtt_client_handle_t mqtt_client;
 static bool _mqtt_is_connected;
 
 static std::map<std::string, Event> dict_sub = {};
+
+static std::map<std::string, char*> dict_variable = {};
 
 static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
 {
@@ -155,6 +160,59 @@ strcpy((char*)wifi_config.sta.password, "1234567890");
     ESP_ERROR_CHECK(esp_wifi_start());
     ESP_LOGI(TAG, "Waiting for wifi");
     xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT, false, true, portMAX_DELAY);*/
+}
+
+double round(double x)
+{
+    std::fenv_t save_env;
+    std::feholdexcept(&save_env);
+    double result = std::rint(x);
+    if (std::fetestexcept(FE_INEXACT)) {
+        auto const save_round = std::fegetround();
+        std::fesetround(FE_TOWARDZERO);
+        result = std::rint(std::copysign(0.5 + std::fabs(x), x));
+        std::fesetround(save_round);
+    }
+    std::feupdateenv(&save_env);
+    return result;
+}
+
+char* to_char_array(double num_double, int decimal_place)
+{
+    int num_int = round(num_double * pow(10, decimal_place));
+    int sign = num_int < 0 ? 1 : 0;
+    num_int = abs(num_int);
+
+    if (num_int == 0)
+    {
+        char* s = (char*)malloc(decimal_place + 3);
+        s[0] = '0';
+        s[1] = '.';
+        for (int i = 2; i < decimal_place + 2; i++)
+            s[i] = '0';
+        s[decimal_place + 2] = '\0';
+        return s;
+    }
+
+    int digit_count = 1;
+    int n = num_int;
+    if (n >= 100000000) { digit_count += 8; n /= 100000000; }
+    if (n >= 10000) { digit_count += 4; n /= 10000; }
+    if (n >= 100) { digit_count += 2; n /= 100; }
+    if (n >= 10) { digit_count++; }
+
+    int size = digit_count + 1 + (decimal_place > 0 ? 1 : 0) + sign;
+    char* s = (char*)malloc(size);
+
+    for (int i = 0, integer = num_int; integer != 0; integer /= 10) {
+        s[size - 2 - i++] = integer % 10 + 48;
+        if (decimal_place > 0 && i == decimal_place)
+            s[size - 2 - i++] = '.';
+    }
+    s[size - 1] = '\0';
+    if (sign)
+        s[0] = '-';
+    return s;
 }
 
 void app_main()
@@ -331,6 +389,49 @@ char* BLINK::password(void) {
     return wifi_password;
 }
 
+void BLINK::set_string(char *variable, char *value) {
+    printf("%s\n", value);
+    dict_variable[variable] = value;
+    printf("%s\n", dict_variable[variable]);
+}
+
+char* BLINK::get_string(char *variable) {
+    char* value = dict_variable[variable];
+    // printf("%s\n", dict_variable[variable]);
+    return value;
+}
+
+char* BLINK::concat(char *one, char *two) {
+    std::string total(std::string(one) + two);
+    char* result = const_cast<char*>(total.c_str());
+    printf("%s\n", result);
+    return result;
+}
+
+char* BLINK::concat(double one, char *two) {
+    char* char_one = to_char_array(one, 3);
+    std::string total(std::string(char_one) + two);
+    char* result = const_cast<char*>(total.c_str());
+    printf("%s\n", result);
+    return result;
+}
+
+char* BLINK::concat(char *one, double two) {
+    char* char_two = to_char_array(two, 3);
+    std::string total(std::string(one) + char_two);
+    char* result = const_cast<char*>(total.c_str());
+    return result;
+}
+
+char* BLINK::concat(double one, double two) {
+    char* char_one = to_char_array(one, 3);
+    char* char_two = to_char_array(one, 3);
+    std::string total(std::string(char_one) + char_two);
+    char* result = const_cast<char*>(total.c_str());
+    printf("%s\n", result);
+    return result;
+}
+
 void BLINK::mqtt_start(char *ip) {
 
     mqtt_ip = ip;
@@ -357,6 +458,13 @@ void BLINK::mqtt_pub(char *topic, int data) {
     char string[8];
     snprintf(string, sizeof(string) - 1, "%d", data);
     esp_mqtt_client_publish(mqtt_client, topic, string, 0, 0, 0);
+}
+
+void BLINK::mqtt_pub(char *topic, char *data) {
+    while(_mqtt_is_connected == false) {
+        vTaskDelay(10 / portTICK_RATE_MS);
+    }
+    esp_mqtt_client_publish(mqtt_client, topic, data, 0, 0, 0);
 }
 
 void BLINK::mqtt_sub(char *topic, Callback statement) {

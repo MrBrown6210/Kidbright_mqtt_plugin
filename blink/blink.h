@@ -40,8 +40,15 @@ class BLINK : public Device {
 		void stop(void);
 		char* ssid(void);
 		char* password(void);
+		void set_string(char *variable, char *value);
+		char* get_string(char *variable);
+		char* concat(char *one, char *two);
+		char* concat(double one, char *two);
+		char* concat(char *one, double two);
+		char* concat(double one, double two);
 		void mqtt_start(char *ip);
 		void mqtt_pub(char *topic, int data);
+		void mqtt_pub(char *topic, char *data);
 		void mqtt_sub(char *topic, Callback statement);
 		bool mqtt_is_connected(void);
 		char* subscribe_data(char *topic);
