@@ -212,6 +212,30 @@ char* to_char_array(double num_double, int decimal_place)
     s[size - 1] = '\0';
     if (sign)
         s[0] = '-';
+
+    //Fix when '.5' happened will become to 0.5
+
+    if (s[0] == '.') {
+        char* x = (char*)malloc(size + 1);
+        x[0] = '0';
+        for (int i = 0; i < strlen(s); i++) {
+            x[i+1] = s[i];
+        }
+        return x;
+    }
+
+    //Fix when '-.5' happened will become to -0.5
+    
+    if (s[0] == '-' && s[1] == '.') {
+        char* x = (char*)malloc(size + 1);
+        x[0] = '-';
+        x[1] = '0';
+        for (int i = 0; i < strlen(s) - 1; i++) {
+            x[i+2] = s[i + 1];
+        }
+        return x;
+    }
+
     return s;
 }
 
