@@ -221,7 +221,7 @@ char* to_char_array(double num_double, int decimal_place)
         for (int i = 0; i < strlen(s); i++) {
             x[i+1] = s[i];
         }
-        x[size + 1] = '\0';
+        x[size] = '\0';
         printf("%s\n", x);
         return x;
     }
@@ -235,7 +235,7 @@ char* to_char_array(double num_double, int decimal_place)
         for (int i = 0; i < strlen(s) - 1; i++) {
             x[i+2] = s[i + 1];
         }
-        x[size + 1] = '\0';
+        x[size] = '\0';
         printf("%s\n", x);
         return x;
     }
