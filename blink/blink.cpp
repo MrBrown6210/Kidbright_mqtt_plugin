@@ -212,6 +212,7 @@ char* to_char_array(double num_double, int decimal_place)
     s[size - 1] = '\0';
     if (sign)
         s[0] = '-';
+    return s;
 
     //Fix when '.5' happened will become to 0.5
 
@@ -221,7 +222,7 @@ char* to_char_array(double num_double, int decimal_place)
         for (int i = 0; i < strlen(s); i++) {
             x[i+1] = s[i];
         }
-        x[size] = '\0';
+        x[size + 1] = '\0';
         printf("%s\n", x);
         return x;
     }
@@ -235,12 +236,11 @@ char* to_char_array(double num_double, int decimal_place)
         for (int i = 0; i < strlen(s) - 1; i++) {
             x[i+2] = s[i + 1];
         }
-        x[size] = '\0';
+        x[size + 1] = '\0';
         printf("%s\n", x);
         return x;
     }
 
-    return s;
 }
 
 void app_main()
@@ -432,7 +432,7 @@ char* BLINK::get_string(char *variable) {
 char* BLINK::concat(char *one, char *two) {
     std::string total(std::string(one) + two);
     char* result = const_cast<char*>(total.c_str());
-    // printf("%s\n", result);
+    printf("%s\n", result);
     return result;
 }
 
@@ -440,7 +440,7 @@ char* BLINK::concat(double one, char *two) {
     char* char_one = to_char_array(one, 3);
     std::string total(std::string(char_one) + two);
     char* result = const_cast<char*>(total.c_str());
-    // printf("%s\n", result);
+    printf("%s\n", result);
     return result;
 }
 
@@ -456,7 +456,7 @@ char* BLINK::concat(double one, double two) {
     char* char_two = to_char_array(one, 3);
     std::string total(std::string(char_one) + char_two);
     char* result = const_cast<char*>(total.c_str());
-    // printf("%s\n", result);
+    printf("%s\n", result);
     return result;
 }
 
@@ -492,7 +492,6 @@ void BLINK::mqtt_pub(char *topic, char *data) {
     while(_mqtt_is_connected == false) {
         vTaskDelay(10 / portTICK_RATE_MS);
     }
-    // printf("%s\n", data);
     esp_mqtt_client_publish(mqtt_client, topic, data, 0, 0, 0);
 }
 
